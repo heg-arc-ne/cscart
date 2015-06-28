@@ -1,0 +1,29 @@
+<?php
+
+$config = \Tygh\Registry::get('config');
+
+@list($host, $port) = explode(':', $config['db_host']);
+if (empty($port)) {
+    $port = 3306;
+}
+
+return array(
+    'paths' => array(
+        'migrations' => $config['dir']['migrations'],
+    ),
+    'environments' => array(
+        'default_migration_table' => 'phinxlog' . TIME,
+        'default_database' => 'development',
+        'development' => array(
+            'dir_root' => DIR_ROOT,
+            'adapter' => 'mysql',
+            'host' => $host,
+            'name' => $config['db_name'],
+            'user' => $config['db_user'],
+            'pass' => $config['db_password'],
+            'port' => $port,
+            'charset' => 'utf8',
+            'prefix' => DEFAULT_TABLE_PREFIX,
+        )
+    )
+);
